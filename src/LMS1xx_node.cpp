@@ -43,6 +43,8 @@ int main(int argc, char **argv)
   // parameters
   double angle_max;
   double angle_min;
+  double range_max;
+  double range_min;
   std::string host;
   std::string frame_id;
   bool inf_range;
@@ -55,6 +57,8 @@ int main(int argc, char **argv)
 
   n.param<double>("angle_max", angle_max, M_PI);
   n.param<double>("angle_min", angle_min, -M_PI);
+  n.param<double>("range_max", range_max, 30.0);
+  n.param<double>("range_min", range_min, 0.01);
   n.param<std::string>("host", host, "192.168.1.2");
   n.param<std::string>("frame_id", frame_id, "laser");
   n.param<bool>("publish_min_range_as_inf", inf_range, false);
@@ -99,8 +103,8 @@ int main(int argc, char **argv)
               outputRange.angleResolution, outputRange.startAngle, outputRange.stopAngle);
 
     scan_msg.header.frame_id = frame_id;
-    scan_msg.range_min = 0.01;
-    scan_msg.range_max = 20.0;
+    scan_msg.range_min = range_min;
+    scan_msg.range_max = range_max;
     scan_msg.scan_time = 100.0 / cfg.scaningFrequency;
     scan_msg.angle_increment = static_cast<double>(outputRange.angleResolution / 10000.0 * DEG2RAD);
 
